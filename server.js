@@ -7,15 +7,17 @@ app.use(express.static(path.join(__dirname, './www')));
 
 database.on('connect', function() {
 	console.log('Connected');
+
 });
 
 io.on('connection', function(socket) {
 	socket.on('message', function(message) {
-		console.log(message);
+		console.log('Client message: ' + message);
 		database.set('log', message);
 	});
 	// socket.emit('messageLog', 'Here is your server response.');
 	database.get('log', function(error, response) {
+		console.log('Database response: ' + response);
 		socket.emit('messageLog', response);
 	});
 });
