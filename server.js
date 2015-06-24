@@ -14,6 +14,12 @@ io.on('connection', function(socket) {
 	socket.on('message', function(message) {
 		console.log('Client message: ' + message);
 		database.set('log', message);
+
+		database.get('log', function(error, response) {
+			console.log('Database response: ' + response);
+			socket.emit('messageLog', response);
+		});
+
 	});
 	// socket.emit('messageLog', 'Here is your server response.');
 	database.get('log', function(error, response) {
